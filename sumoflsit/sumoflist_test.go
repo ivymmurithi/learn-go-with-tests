@@ -2,7 +2,7 @@ package sumoflsit
 
 import (
 	"testing"
-	"reflect"
+	"slices"
 	"github.com/ivymmurithi/learn-go-with-tests/helpers"
 )
 
@@ -29,9 +29,33 @@ func TestSumAl(t *testing.T) {
 	got := SumAll([]int{1,2,4}, []int{5,5})
 	want := []int{7, 10}
 
-	// not equality operator for slices
-	// deep equal is not type safe eg want could be "Bob" but it will compile as usual
-	if !reflect.DeepEqual(got, want) {
+	if !slices.Equal(got, want) {
 		t.Errorf("got %v want %v", got, want)
 	}
+}
+
+func TestSumAllTails(t *testing.T) {
+
+	checkSums := func(t testing.TB, got, want []int) {
+		t.Helper()
+
+		if !slices.Equal(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+		
+	}
+	t.Run("Summation of tails", func(t *testing.T) {
+		got := SumAllTails([]int{1,2,6}, []int{5,10})
+		want := []int{8, 10}
+
+		checkSums(t, got, want)
+	})
+
+	t.Run("safely summate an empty list", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{4,6,2})
+		want := []int{0, 8}
+
+		checkSums(t, got, want)
+	})
+	
 }
